@@ -1,19 +1,25 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react'
+import { Button } from 'react-native'
+import { Dictionary } from './App.constants'
+import { styles } from './App.styles'
+import { ICounter } from './App.types'
+import { Text, View } from './dependencies'
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
-  );
+    const Counter: ICounter = (() => {
+        const [count, setCounter] = useState<number>(0)
+        return {
+            incrementCounter: () => setCounter(count + 1),
+            decrementCounter: () => setCounter(count - 1),
+            getCounter: () => count
+        }
+    })()
+    
+    return (
+        <View style={styles.container}>
+            <Text nativeID='counter-text'>Current count = {Counter.getCounter()}</Text>
+            <Button title={Dictionary.IncrementMessage} onPress={Counter.incrementCounter}></Button>
+            <Button title={Dictionary.DecrementMessage} onPress={Counter.decrementCounter}></Button>
+        </View>
+    );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
